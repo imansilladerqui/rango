@@ -31,7 +31,9 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# Logs
+# Storybook build output
+storybook-static/
+
 *.log
 npm-debug.log*
 yarn-debug.log*

@@ -4,3 +4,4 @@ coverage
 public/mockServiceWorker.js
 pnpm-lock.yaml
 package-lock.json
+storybook-static

@@ -23,9 +23,8 @@ export default tseslint.config(
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
-  // Test files and shared test utilities don't go through HMR — disable react-refresh rules.
   {
-    files: ['**/*.spec.{ts,tsx}', '**/test-utils.tsx'],
+    files: ['**/*.spec.{ts,tsx}', '**/*.stories.{ts,tsx}', '**/test-utils.tsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },
