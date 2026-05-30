@@ -1,21 +1,8 @@
-import { useEffect, useState } from 'react'
 import Range from '@/components/Range/Range'
-
-type RangeData = { min: number; max: number }
+import { useRangeQuery } from '@/hooks/useRangeQuery'
 
 const Exercise1 = () => {
-  const [data, setData] = useState<RangeData | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    fetch('/api/range')
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json() as Promise<RangeData>
-      })
-      .then(setData)
-      .catch((err: unknown) => setError(err instanceof Error ? err.message : 'Unknown error'))
-  }, [])
+  const { data, error, isLoading } = useRangeQuery()
 
   return (
     <div className="w-full max-w-[700px] flex flex-col items-center gap-8">
@@ -28,11 +15,11 @@ const Exercise1 = () => {
 
       {error && (
         <p className="text-[#c0392b] bg-[#fdecea] py-3 px-5 rounded-lg text-sm">
-          Failed to load range: {error}
+          Failed to load range: {error.message}
         </p>
       )}
 
-      {!data && !error && <p className="text-[#999999] italic">Loading…</p>}
+      {isLoading && <p className="text-[#999999] italic">Loading…</p>}
 
       {data && (
         <div className="w-full bg-white rounded-2xl py-12 px-10 shadow-[0_4px_24px_rgba(0,0,0,0.08)]">

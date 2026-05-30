@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { setupServer } from 'msw/node'
 import { http, HttpResponse } from 'msw'
 import Exercise2 from './Exercise2'
@@ -16,12 +17,18 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-const renderExercise2 = () =>
-  render(
-    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <Exercise2 />
-    </MemoryRouter>,
+const renderExercise2 = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Exercise2 />
+      </MemoryRouter>
+    </QueryClientProvider>,
   )
+}
 
 describe('Exercise2 page', () => {
   it('shows loading state initially', () => {
@@ -61,7 +68,6 @@ describe('Exercise2 page', () => {
     const minLabel = screen.getByTestId('label-min')
     await user.click(minLabel)
 
-    // Should remain a SPAN (not turn into an INPUT)
     expect(screen.getByTestId('label-min').tagName).toBe('SPAN')
   })
 
