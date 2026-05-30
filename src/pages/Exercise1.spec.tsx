@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
 import { screen, waitFor } from '@testing-library/react'
 import { setupServer } from 'msw/node'
 import { http, HttpResponse } from 'msw'
-import { renderWithProviders } from '@/test-utils'
+import { renderWithProviders } from '@/utils/test-utils'
 import Exercise1 from './Exercise1'
 
 const server = setupServer(http.get('/api/range', () => HttpResponse.json({ min: 1, max: 100 })))

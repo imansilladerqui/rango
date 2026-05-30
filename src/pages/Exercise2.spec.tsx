@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { setupServer } from 'msw/node'
 import { http, HttpResponse } from 'msw'
-import { renderWithProviders } from '@/test-utils'
+import { renderWithProviders } from '@/utils/test-utils'
 import Exercise2 from './Exercise2'
 
 const FIXED_VALUES = [1.99, 5.99, 10.99, 30.99, 50.99, 70.99]
