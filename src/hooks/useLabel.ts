@@ -1,10 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-export const useLabel = (
-  value: number,
-  editable: boolean,
-  onCommit: (raw: string) => void,
-) => {
+export const useLabel = (value: number, editable: boolean, onCommit: (raw: string) => void) => {
   const [editing, setEditing] = useState(false)
   const [inputVal, setInputVal] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -34,5 +30,14 @@ export const useLabel = (
     if (e.key === 'Escape') setEditing(false)
   }
 
-  return { editing, inputVal, setInputVal, inputRef, displayValue, startEdit, commit, handleKeyDown }
+  return {
+    editing,
+    inputVal,
+    setInputVal,
+    inputRef,
+    displayValue,
+    startEdit,
+    commit,
+    handleKeyDown,
+  }
 }

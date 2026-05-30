@@ -2,8 +2,16 @@ import type { LabelProps } from './Label.types'
 import { useLabel } from '@/hooks/useLabel'
 
 const Label = ({ value, editable, onCommit, testId }: LabelProps) => {
-  const { editing, inputVal, setInputVal, inputRef, displayValue, startEdit, commit, handleKeyDown } =
-    useLabel(value, editable, onCommit)
+  const {
+    editing,
+    inputVal,
+    setInputVal,
+    inputRef,
+    displayValue,
+    startEdit,
+    commit,
+    handleKeyDown,
+  } = useLabel(value, editable, onCommit)
 
   if (editing) {
     return (

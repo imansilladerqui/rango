@@ -2,9 +2,7 @@ export const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value))
 
 export const snapToNearest = (value: number, values: number[]): number =>
-  values.reduce((prev, curr) =>
-    Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev,
-  )
+  values.reduce((prev, curr) => (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev))
 
 export const valueToPercent = (value: number, min: number, max: number): number => {
   if (max === min) return 0

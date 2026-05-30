@@ -20,43 +20,63 @@ describe('useLabel', () => {
 
   it('startEdit sets editing to true when editable', () => {
     const { result } = renderHook(() => useLabel(10, true, vi.fn()))
-    act(() => { result.current.startEdit() })
+    act(() => {
+      result.current.startEdit()
+    })
     expect(result.current.editing).toBe(true)
   })
 
   it('startEdit pre-fills inputVal with displayValue', () => {
     const { result } = renderHook(() => useLabel(25, true, vi.fn()))
-    act(() => { result.current.startEdit() })
+    act(() => {
+      result.current.startEdit()
+    })
     expect(result.current.inputVal).toBe('25')
   })
 
   it('startEdit does nothing when not editable', () => {
     const { result } = renderHook(() => useLabel(10, false, vi.fn()))
-    act(() => { result.current.startEdit() })
+    act(() => {
+      result.current.startEdit()
+    })
     expect(result.current.editing).toBe(false)
   })
 
   it('commit calls onCommit with the current inputVal', () => {
     const onCommit = vi.fn()
     const { result } = renderHook(() => useLabel(10, true, onCommit))
-    act(() => { result.current.startEdit() })
-    act(() => { result.current.setInputVal('77') })
-    act(() => { result.current.commit() })
+    act(() => {
+      result.current.startEdit()
+    })
+    act(() => {
+      result.current.setInputVal('77')
+    })
+    act(() => {
+      result.current.commit()
+    })
     expect(onCommit).toHaveBeenCalledWith('77')
   })
 
   it('commit sets editing to false', () => {
     const { result } = renderHook(() => useLabel(10, true, vi.fn()))
-    act(() => { result.current.startEdit() })
-    act(() => { result.current.commit() })
+    act(() => {
+      result.current.startEdit()
+    })
+    act(() => {
+      result.current.commit()
+    })
     expect(result.current.editing).toBe(false)
   })
 
   it('handleKeyDown Enter calls onCommit and exits editing', () => {
     const onCommit = vi.fn()
     const { result } = renderHook(() => useLabel(10, true, onCommit))
-    act(() => { result.current.startEdit() })
-    act(() => { result.current.setInputVal('55') })
+    act(() => {
+      result.current.startEdit()
+    })
+    act(() => {
+      result.current.setInputVal('55')
+    })
     act(() => {
       result.current.handleKeyDown({ key: 'Enter' } as React.KeyboardEvent<HTMLInputElement>)
     })
@@ -67,8 +87,12 @@ describe('useLabel', () => {
   it('handleKeyDown Escape exits editing without calling onCommit', () => {
     const onCommit = vi.fn()
     const { result } = renderHook(() => useLabel(10, true, onCommit))
-    act(() => { result.current.startEdit() })
-    act(() => { result.current.setInputVal('99') })
+    act(() => {
+      result.current.startEdit()
+    })
+    act(() => {
+      result.current.setInputVal('99')
+    })
     act(() => {
       result.current.handleKeyDown({ key: 'Escape' } as React.KeyboardEvent<HTMLInputElement>)
     })
@@ -79,7 +103,9 @@ describe('useLabel', () => {
   it('handleKeyDown on other keys does nothing', () => {
     const onCommit = vi.fn()
     const { result } = renderHook(() => useLabel(10, true, onCommit))
-    act(() => { result.current.startEdit() })
+    act(() => {
+      result.current.startEdit()
+    })
     act(() => {
       result.current.handleKeyDown({ key: 'Tab' } as React.KeyboardEvent<HTMLInputElement>)
     })
@@ -89,8 +115,12 @@ describe('useLabel', () => {
 
   it('setInputVal updates inputVal', () => {
     const { result } = renderHook(() => useLabel(10, true, vi.fn()))
-    act(() => { result.current.startEdit() })
-    act(() => { result.current.setInputVal('33') })
+    act(() => {
+      result.current.startEdit()
+    })
+    act(() => {
+      result.current.setInputVal('33')
+    })
     expect(result.current.inputVal).toBe('33')
   })
 

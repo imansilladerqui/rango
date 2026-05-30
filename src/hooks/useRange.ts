@@ -5,19 +5,34 @@ import { clamp, valueToPercent, roundToTwo, computeNewValue } from '@/utils/rang
 export const useRange = (props: RangeProps) => {
   const { minBound, maxBound, allValues, isFixed } =
     props.mode === 'fixed'
-      ? { minBound: props.values[0], maxBound: props.values[props.values.length - 1], allValues: props.values, isFixed: true }
+      ? {
+          minBound: props.values[0],
+          maxBound: props.values[props.values.length - 1],
+          allValues: props.values,
+          isFixed: true,
+        }
       : { minBound: props.min, maxBound: props.max, allValues: null, isFixed: false }
 
   const [minVal, setMinVal] = useState<number>(minBound)
   const [maxVal, setMaxVal] = useState<number>(maxBound)
 
+  // Reset values when bounds change (e.g. after API data loads).
+  // Uses "setState during render" instead of useEffect to avoid cascading renders.
+  const [prevMinBound, setPrevMinBound] = useState(minBound)
+  const [prevMaxBound, setPrevMaxBound] = useState(maxBound)
+
+  if (prevMinBound !== minBound) {
+    setPrevMinBound(minBound)
+    setMinVal(minBound)
+  }
+  if (prevMaxBound !== maxBound) {
+    setPrevMaxBound(maxBound)
+    setMaxVal(maxBound)
+  }
+
   const trackRef = useRef<HTMLDivElement>(null)
   const dragging = useRef<DragTarget>(null)
-
-  useEffect(() => {
-    setMinVal(minBound)
-    setMaxVal(maxBound)
-  }, [minBound, maxBound])
+  const abortRef = useRef<AbortController | null>(null)
 
   const getPercentFromEvent = useCallback((clientX: number): number => {
     const track = trackRef.current
@@ -41,27 +56,34 @@ export const useRange = (props: RangeProps) => {
   )
 
   const applyDragRef = useRef(applyDrag)
-  useEffect(() => { applyDragRef.current = applyDrag }, [applyDrag])
+  useEffect(() => {
+    applyDragRef.current = applyDrag
+  }, [applyDrag])
 
+  // Stable handlers — both use only refs, so deps are empty.
   const onMouseMove = useCallback((e: MouseEvent) => {
     if (dragging.current) applyDragRef.current(e.clientX)
   }, [])
 
+  // AbortController lets us cancel both listeners at once without self-referencing onMouseUp.
   const onMouseUp = useCallback(() => {
     if (!dragging.current) return
     dragging.current = null
     document.body.style.cursor = ''
-    document.removeEventListener('mousemove', onMouseMove)
-    document.removeEventListener('mouseup', onMouseUp)
-  }, [onMouseMove])
+    abortRef.current?.abort()
+    abortRef.current = null
+  }, [])
 
   const startDrag = useCallback(
     (target: DragTarget) => (e: React.MouseEvent) => {
       e.preventDefault()
+      abortRef.current?.abort()
+      const abort = new AbortController()
+      abortRef.current = abort
       dragging.current = target
       document.body.style.cursor = 'grabbing'
-      document.addEventListener('mousemove', onMouseMove)
-      document.addEventListener('mouseup', onMouseUp)
+      document.addEventListener('mousemove', onMouseMove, { signal: abort.signal })
+      document.addEventListener('mouseup', onMouseUp, { signal: abort.signal })
     },
     [onMouseMove, onMouseUp],
   )

@@ -88,7 +88,9 @@ describe('Label — editable', () => {
     const input = screen.getByTestId('lbl') as HTMLInputElement
     await user.clear(input)
     await user.type(input, '55')
-    await act(async () => { fireEvent.blur(input) })
+    await act(async () => {
+      fireEvent.blur(input)
+    })
     expect(onCommit).toHaveBeenCalledWith('55')
   })
 
@@ -96,7 +98,9 @@ describe('Label — editable', () => {
     const user = userEvent.setup()
     render(<Label value={10} editable={true} onCommit={vi.fn()} testId="lbl" />)
     await user.click(screen.getByTestId('lbl'))
-    await act(async () => { fireEvent.blur(screen.getByTestId('lbl')) })
+    await act(async () => {
+      fireEvent.blur(screen.getByTestId('lbl'))
+    })
     expect(screen.getByTestId('lbl').tagName).toBe('SPAN')
   })
 })

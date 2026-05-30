@@ -23,8 +23,8 @@ const Exercise2 = () => {
         Exercise 2 — Fixed Values Range
       </h1>
       <p className="text-[0.95rem] text-[#666666] text-center max-w-[480px] leading-relaxed">
-        Bullets snap to allowed values only: 1.99, 5.99, 10.99, 30.99, 50.99, 70.99.
-        Labels are read-only.
+        Bullets snap to allowed values only: 1.99, 5.99, 10.99, 30.99, 50.99, 70.99. Labels are
+        read-only.
       </p>
 
       {error && (

@@ -80,8 +80,6 @@ describe('Exercise2 page', () => {
   it('shows error message when API fails', async () => {
     server.use(http.get('/api/range-fixed', () => HttpResponse.error()))
     renderExercise2()
-    await waitFor(() =>
-      expect(screen.getByText(/failed to load range/i)).toBeInTheDocument(),
-    )
+    await waitFor(() => expect(screen.getByText(/failed to load range/i)).toBeInTheDocument())
   })
 })

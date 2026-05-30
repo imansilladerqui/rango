@@ -25,52 +25,72 @@ describe('useRange — normal mode', () => {
 
   it('minPercent is 50 when minVal is at midpoint', () => {
     const { result } = renderHook(() => useRange({ mode: 'normal', min: 0, max: 100 }))
-    act(() => { result.current.handleLabelCommit('min', '50') })
+    act(() => {
+      result.current.handleLabelCommit('min', '50')
+    })
     expect(result.current.minPercent).toBe(50)
   })
 
   it('handleLabelCommit min updates minVal', () => {
     const { result } = renderHook(() => useRange(NORMAL_PROPS))
-    act(() => { result.current.handleLabelCommit('min', '30') })
+    act(() => {
+      result.current.handleLabelCommit('min', '30')
+    })
     expect(result.current.minVal).toBe(30)
   })
 
   it('handleLabelCommit max updates maxVal', () => {
     const { result } = renderHook(() => useRange(NORMAL_PROPS))
-    act(() => { result.current.handleLabelCommit('max', '70') })
+    act(() => {
+      result.current.handleLabelCommit('max', '70')
+    })
     expect(result.current.maxVal).toBe(70)
   })
 
   it('handleLabelCommit clamps min to minBound', () => {
     const { result } = renderHook(() => useRange(NORMAL_PROPS))
-    act(() => { result.current.handleLabelCommit('min', '-999') })
+    act(() => {
+      result.current.handleLabelCommit('min', '-999')
+    })
     expect(result.current.minVal).toBeGreaterThanOrEqual(0)
   })
 
   it('handleLabelCommit clamps max to maxBound', () => {
     const { result } = renderHook(() => useRange(NORMAL_PROPS))
-    act(() => { result.current.handleLabelCommit('max', '9999') })
+    act(() => {
+      result.current.handleLabelCommit('max', '9999')
+    })
     expect(result.current.maxVal).toBeLessThanOrEqual(100)
   })
 
   it('handleLabelCommit min cannot exceed maxVal', () => {
     const { result } = renderHook(() => useRange(NORMAL_PROPS))
-    act(() => { result.current.handleLabelCommit('max', '40') })
-    act(() => { result.current.handleLabelCommit('min', '80') })
+    act(() => {
+      result.current.handleLabelCommit('max', '40')
+    })
+    act(() => {
+      result.current.handleLabelCommit('min', '80')
+    })
     expect(result.current.minVal).toBeLessThan(result.current.maxVal)
   })
 
   it('handleLabelCommit max cannot go below minVal', () => {
     const { result } = renderHook(() => useRange(NORMAL_PROPS))
-    act(() => { result.current.handleLabelCommit('min', '60') })
-    act(() => { result.current.handleLabelCommit('max', '10') })
+    act(() => {
+      result.current.handleLabelCommit('min', '60')
+    })
+    act(() => {
+      result.current.handleLabelCommit('max', '10')
+    })
     expect(result.current.maxVal).toBeGreaterThan(result.current.minVal)
   })
 
   it('handleLabelCommit ignores NaN input', () => {
     const { result } = renderHook(() => useRange(NORMAL_PROPS))
     const before = result.current.minVal
-    act(() => { result.current.handleLabelCommit('min', 'abc') })
+    act(() => {
+      result.current.handleLabelCommit('min', 'abc')
+    })
     expect(result.current.minVal).toBe(before)
   })
 
@@ -122,7 +142,9 @@ describe('useRange — prop changes', () => {
     const { result, rerender } = renderHook((props) => useRange(props), {
       initialProps: { mode: 'normal' as const, min: 0, max: 100 },
     })
-    act(() => { result.current.handleLabelCommit('min', '40') })
+    act(() => {
+      result.current.handleLabelCommit('min', '40')
+    })
     expect(result.current.minVal).toBe(40)
 
     rerender({ mode: 'normal' as const, min: 10, max: 50 })

@@ -4,8 +4,16 @@ import Bullet from '@/components/Bullet/Bullet'
 import Label from '@/components/Label/Label'
 
 const Range = (props: RangeProps) => {
-  const { isFixed, trackRef, minVal, maxVal, minPercent, maxPercent, startDrag, handleLabelCommit } =
-    useRange(props)
+  const {
+    isFixed,
+    trackRef,
+    minVal,
+    maxVal,
+    minPercent,
+    maxPercent,
+    startDrag,
+    handleLabelCommit,
+  } = useRange(props)
 
   return (
     <div className="flex items-center gap-6 w-full max-w-[600px] select-none" data-testid="range">
@@ -16,7 +24,11 @@ const Range = (props: RangeProps) => {
         testId="label-min"
       />
 
-      <div className="relative flex-1 h-1 bg-[#dddddd] rounded-sm" ref={trackRef} data-testid="track">
+      <div
+        className="relative flex-1 h-1 bg-[#dddddd] rounded-sm"
+        ref={trackRef}
+        data-testid="track"
+      >
         <div
           className="absolute top-0 h-full bg-[#e94560] rounded-sm pointer-events-none"
           style={{ left: `${minPercent}%`, width: `${maxPercent - minPercent}%` }}
